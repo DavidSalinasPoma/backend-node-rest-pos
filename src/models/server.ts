@@ -2,16 +2,19 @@
 import express, { Application } from 'express';
 
 // Base de datos mongoDb o SQL
-import '../db/conexion.db';
+// import '../db/conexion.db';
+import db from '../db/conection';
 
 // Importando el cors
 import cors from 'cors';
 
 // Creamos el alias directamente
 import authRoutes from '../routes/auth.routes';
+import usuariosRoutes from '../routes/usuarios.routes';
 
 // Para ver en consola las peticiones
 import morgan from 'morgan';
+
 
 
 class Server {
@@ -30,7 +33,7 @@ class Server {
 
         // Tiene que ejecutarse en ese orden
         // 1.- Base de datos
-        // this.dbConection();
+        this.dbConection();
 
         // 2.- This middlerares
         this.middlewares();
@@ -42,7 +45,20 @@ class Server {
     }
 
 
-    // 1.- Base de datos
+    // 1.- Base de datos Mysql y sequalize
+    /**
+     * dbConection
+     */
+    public async dbConection() {
+        try {
+            await db.authenticate();
+            console.log('Database is online');
+
+        } catch (error: any) {
+            throw new Error(error);
+        }
+
+    }
 
 
     // 2.- Para parsear el BODY
@@ -69,6 +85,8 @@ class Server {
 
         // Rutas Aqui la url para las rutas authRoutes (auth: '/api/auth') 
         this.app.use(this.apiPaths.auth, authRoutes); // Ejecuta todos los metodos de esa clase
+
+        this.app.use(this.apiPaths.auth, usuariosRoutes);
 
     }
 

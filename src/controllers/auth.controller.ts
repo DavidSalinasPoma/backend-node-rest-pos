@@ -1,4 +1,3 @@
-
 // Para el autoCompletado
 import { Response, Request } from 'express';
 
