@@ -19,7 +19,7 @@ export const showUsuario = async (req: Request, res: Response) => {
     // capturando el id del usuario
     const { id } = req.params;
 
-    const usuario = await Usuario.findByPk(id); // Un ususario por id
+    const usuario = await Usuario.findByPk(id); // Un usuario por id
 
     if (usuario) {
         return res.status(200).json({
